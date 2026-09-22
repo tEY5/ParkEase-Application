@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<p>Registration Page</p>
+    <input type="text" ng-model="firstname" />
+    <input type="text" ng-model="middlename" />
+    <input type="text" ng-model="lastname" />
+    <input type="text" ng-model="position" />
+
+    <button ng-click="registrationFunc()">Register</button>
+    <button ng-click="redirectFunc()">About Page</button>
+
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Position</th>
+            <th>Action</th>
+        </tr>
+
+        <tr ng-repeat="udata in userarray">
+        <td>{{udata.FName}}</td>
+        <td>{{udata.MName}}</td>
+        <td>{{udata.LName}}</td>
+        <td>{{udata.Position}}</td>
+        <td>
+            <button ng-click="updateFunc($index)">Edit</button>
+            <button ng-click="deleteFunc($index)">Delete</button>
+        </td>
+        </tr>
+    </table>
