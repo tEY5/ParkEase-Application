@@ -1,9 +1,33 @@
 @{
     Layout = "~/Views/Shared/_mainLayout.cshtml";
-    ViewBag.Title = "Dashboard - Client Directory";
+    ViewBag.Title = "Dashboard - Home";
 }
 
-<div class="w-full max-w-6xl mx-auto py-6">
+<div class="w-full max-w-6xl mx-auto py-6 space-y-6">
+
+    <div class="bg-gradient-to-r from-violet-900/60 via-slate-800/80 to-slate-900/80 backdrop-blur-md rounded-[32px] p-8 md:p-10 border border-white/10 shadow-2xl text-white flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-3 text-center md:text-left">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-violet-500/20 text-violet-300 border border-violet-400/30">
+                System Status: Active
+            </span>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
+                @ViewBag.WelcomeMessage
+            </h1>
+            <p class="text-slate-300 text-sm max-w-xl">
+                Manage client parking profiles, monitor occupancy records, and review violation fee inquiries across campus facilities.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+            <a href="/Main/RegistrationPage" class="bg-violet-600 hover:bg-violet-700 text-white font-medium px-5 py-2.5 rounded-full text-sm shadow-lg shadow-violet-500/25 transition active:scale-95">
+                Register Client
+            </a>
+            <a href="/Main/LoginPage" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium px-5 py-2.5 rounded-full text-sm transition active:scale-95">
+                Switch User
+            </a>
+        </div>
+    </div>
+
     <div class="bg-white rounded-[32px] shadow-2xl border border-slate-100 p-6 md:p-8 text-slate-800">
 
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6">
@@ -16,7 +40,7 @@
                 <input type="text" 
                        ng-model="searchClient" 
                        placeholder="Search clients..." 
-                       class="w-full pl-10 pr-4 py-2 rounded-full border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition bg-slate-50/50" />
+                       class="w-full pl-10 pr-4 py-2 rounded-full border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-50/50" />
             </div>
 
             <div class="flex items-center space-x-3 self-end sm:self-auto">
@@ -29,7 +53,7 @@
                 </button>
 
                 <a href="/Main/RegistrationPage" 
-                   class="bg-violet-600 hover:bg-violet-700 text-white font-medium px-5 py-2 rounded-full text-sm shadow-md shadow-violet-500/25 hover:shadow-lg hover:shadow-violet-500/35 transition flex items-center space-x-1.5 active:scale-95">
+                   class="bg-violet-600 hover:bg-violet-700 text-white font-medium px-5 py-2 rounded-full text-sm shadow-md shadow-violet-500/25 hover:shadow-lg transition flex items-center space-x-1.5 active:scale-95">
                     <span class="text-base leading-none font-bold">+</span>
                     <span>Add New Client</span>
                 </a>
@@ -50,26 +74,20 @@
                 <tbody class="divide-y divide-slate-100 text-sm">
                     <tr ng-repeat="udata in userarray | filter:searchClient" class="hover:bg-slate-50/70 transition-colors">
                         <td class="py-3.5 px-4">
-                            <div class="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border border-slate-200/80 flex items-center justify-center font-bold text-slate-600 text-xs shadow-sm">
+                            <div class="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-600 text-xs shadow-sm">
                                 <img ng-if="udata.Avatar" ng-src="{{udata.Avatar}}" alt="{{udata.FName}}" class="w-full h-full object-cover">
                                 <span ng-if="!udata.Avatar">{{udata.FName.charAt(0)}}</span>
                             </div>
                         </td>
-                        <td class="py-3.5 px-4 font-semibold text-slate-900">
-                            {{udata.FName}}
-                        </td>
-                        <td class="py-3.5 px-4 text-slate-700 font-medium">
-                            {{udata.LName}}
-                        </td>
-                        <td class="py-3.5 px-4 text-slate-600 font-normal">
-                            {{udata.Email}}
-                        </td>
+                        <td class="py-3.5 px-4 font-semibold text-slate-900">{{udata.FName}}</td>
+                        <td class="py-3.5 px-4 text-slate-700 font-medium">{{udata.LName}}</td>
+                        <td class="py-3.5 px-4 text-slate-600 font-normal">{{udata.Email}}</td>
                         <td class="py-3.5 px-4">
                             <div class="flex items-center justify-center space-x-2">
                                 <button type="button" 
                                         ng-click="editFunc($index)" 
                                         title="Edit client"
-                                        class="w-8 h-8 rounded-xl border border-slate-200 hover:border-violet-400 text-slate-400 hover:text-violet-600 hover:bg-violet-50/50 flex items-center justify-center transition shadow-sm">
+                                        class="w-8 h-8 rounded-xl border border-slate-200 hover:border-violet-400 text-slate-400 hover:text-violet-600 hover:bg-violet-50 flex items-center justify-center transition shadow-sm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
                                     </svg>
@@ -77,7 +95,7 @@
                                 <button type="button" 
                                         ng-click="deleteFunc($index)" 
                                         title="Delete client"
-                                        class="w-8 h-8 rounded-xl border border-slate-200 hover:border-rose-400 text-slate-400 hover:text-rose-600 hover:bg-rose-50/50 flex items-center justify-center transition shadow-sm">
+                                        class="w-8 h-8 rounded-xl border border-slate-200 hover:border-rose-400 text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition shadow-sm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                     </svg>
@@ -116,4 +134,4 @@
 
     </div>
 </div>
-</main>
+

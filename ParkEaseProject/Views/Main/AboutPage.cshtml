@@ -1,5 +1,73 @@
-﻿@{
+@{
     Layout = "~/Views/Shared/_mainLayout.cshtml";
+    ViewBag.Title = "About Us";
 }
 
+<div class="w-full max-w-4xl mx-auto my-auto py-6">
+    <div class="bg-white rounded-[32px] shadow-2xl border border-slate-100 p-8 md:p-10 text-slate-800">
+        
+        <div class="flex items-center space-x-4 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-violet-50 border border-violet-100 flex items-center justify-center text-violet-600">
+                <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L3 20H8.5L12 12.5L15.5 20H21L12 2Z" fill="#8B5CF6"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">About ParkEase</h1>
+                <p class="text-slate-500 text-sm">Parking Management &amp; Account Portal</p>
+            </div>
+        </div>
+
+        <div class="h-px bg-slate-100 w-full mb-8"></div>
+
+        <div class="space-y-6 text-slate-600 leading-relaxed text-sm md:text-base">
+            <p>
+                <strong class="text-slate-900 font-semibold">ParkEase</strong> is an intelligent parking management and account administration platform developed as Machine Problem 1 for 3rd-year Bachelor of Science in Information Technology students at the University of Santo Tomas.
+            </p>
+            <p>
+                The platform empowers campus car owners, faculty, and administrative staff to check real-time parking slot availability, manage client profile accounts, review outstanding parking violation fees, and register vehicles with zero paperwork.
+            </p>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                <div class="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold text-xs">
+                    01
+                </div>
+                <h3 class="font-bold text-slate-900 text-sm">Client Account Management</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Client-side CRUD functionality enabling instant addition, editing, and removal of client accounts.
+                </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                <div class="w-8 h-8 rounded-xl bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xs">
+                    02
+                </div>
+                <h3 class="font-bold text-slate-900 text-sm">Real-time Spot Finding</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Check spot statuses, reserved parking bays, and multi-tier campus parking garage occupancy.
+                </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
+                    03
+                </div>
+                <h3 class="font-bold text-slate-900 text-sm">Transparent Violations</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Instant transparency on parking permits, violation notices, and settlement status.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-400">UST BSIT &bull; MP1 Web Application</span>
+            <a href="/Main/HomePage" class="bg-violet-600 hover:bg-violet-700 text-white font-medium px-5 py-2 rounded-full text-xs shadow-md shadow-violet-500/25 transition">
+                Go to Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>
 

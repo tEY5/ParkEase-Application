@@ -971,10 +971,14 @@
     <Content Include="Views\Shared\_mainLayout.cshtml" />
     <Content Include="Views\Main\RegistrationPage.cshtml" />
     <Content Include="Views\Main\AboutPage.cshtml" />
+    <Content Include="Views\Main\ContactPage.cshtml" />
+    <Content Include="Views\Main\HomePage.cshtml" />
+    <Content Include="Views\Main\LoginPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\" />
+    <Folder Include="Content\MainCss\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

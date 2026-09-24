@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,8 +13,24 @@ namespace ParkEaseProject.Controllers
             return View();
         }
 
+        public ActionResult LoginPage()
+        {
+            return View();
+        }
+
         public ActionResult AboutPage()
         {
+            return View();
+        }
+
+        public ActionResult ContactPage()
+        {
+            return View();
+        }
+
+        public ActionResult HomePage()
+        {
+            ViewBag.WelcomeMessage = "Welcome to ParkEase Parking Management and Account Portal!";
             return View();
         }
     }
