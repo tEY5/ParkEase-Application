@@ -38,17 +38,112 @@
                         </td>
                         <td class="py-3.5 px-4 text-right space-x-2">
                             <!-- Modify details button (excludes password) -->
-                            <button type="button" ng-click="selectUserForEdit(udata)" class="px-3 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-medium transition active:scale-95">
+                            <button type="button" ng-click="openModal('edit', udata)" class="px-3 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-medium transition active:scale-95">
                                 Edit Details
                             </button>
                             <!-- Issue Violation Button -->
-                            <button type="button" ng-click="openViolationModal(udata)" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-xs font-medium transition active:scale-95">
+                            <button type="button" ng-click="openModal('violation', udata)" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-xs font-medium transition active:scale-95">
                                 Issue Violation
                             </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div ng-if="currentModal === 'edit'" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 md:p-8 space-y-6 border border-slate-100">
+            <div>
+                <h3 class="text-lg font-bold text-slate-900">Edit User Details</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Modify profile info for <span class="font-semibold text-slate-700">{{activeUser.Username}}</span>.</p>
+            </div>
+
+            <form ng-submit="saveUserEdit()" class="space-y-4">
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">First Name</label>
+                        <input type="text" ng-model="activeUser.Fname" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Middle Name</label>
+                        <input type="text" ng-model="activeUser.Mname" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Last Name</label>
+                        <input type="text" ng-model="activeUser.Lname" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Username</label>
+                        <input type="text" ng-model="activeUser.Username" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Plate Number</label>
+                        <input type="text" ng-model="activeUser.PlateNumber" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Email Address</label>
+                    <input type="email" ng-model="activeUser.Email" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Role</label>
+                    <select ng-model="activeUser.Role" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                        <option value="user">user</option>
+                        <option value="admin">admin</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center space-x-3 pt-4">
+                    <button type="submit" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-medium py-2 px-4 rounded-lg transition text-sm">Save Changes</button>
+                    <button type="button" ng-click="closeModal()" class="px-5 py-2 rounded-lg border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium text-sm transition">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Violation Modal -->
+    <div ng-if="currentModal === 'violation'" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 md:p-8 space-y-6 border border-slate-100">
+            <div>
+                <h3 class="text-lg font-bold text-slate-900">Issue Parking Violation</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Issue citation to user: <span class="font-semibold text-slate-700">{{activeUser.Username}}</span></p>
+            </div>
+
+            <form ng-submit="submitViolation()" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Violation Type</label>
+                    <select ng-model="violationData.Type" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                        <option value="" disabled selected>Select Violation Type</option>
+                        <option value="Illegal Parking">Illegal Parking</option>
+                        <option value="Blocking Driveway / Path">Blocking Driveway / Path</option>
+                        <option value="Parking in Reserved Slot">Parking in Reserved Slot</option>
+                        <option value="Overtime Parking">Overtime Parking</option>
+                        <option value="Invalid Displayed Plate">Invalid Displayed Plate</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Fine Amount (PHP)</label>
+                    <input type="number" ng-model="violationData.Fine" required placeholder="e.g. 500" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Remarks / Location Details</label>
+                    <textarea ng-model="violationData.Remarks" rows="3" placeholder="Enter specific location or notes..." class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500 resize-none"></textarea>
+                </div>
+
+                <div class="flex items-center space-x-3 pt-4">
+                    <button type="submit" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-medium py-2 px-4 rounded-lg transition text-sm">Issue Citation</button>
+                    <button type="button" ng-click="closeModal()" class="px-5 py-2 rounded-lg border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium text-sm transition">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -136,8 +136,68 @@ app.controller("ParkEaseProjectController", function($scope, ParkEaseProjectServ
 
     }
 
+    //For Admin Dashboard Logic
 
+    $scope.currentModal = null; // select either edit or violation modal
+    $scope.activeUser = {};     // select tarfet user
+    $scope.violationData = {};  // for violation data
 
+    $scope.openModal = function(type, user) {
+        $scope.currentModal = type;
+
+        $scope.activeUser = type === 'edit' ? Object.assign({}, user) : user; // iniintindi ko pa to sir kasama nung localstorage
+
+        if (type === 'violation') {
+            $scope.violationData = {};
+        }
+    };
+
+    // Close Modal Function
+    $scope.closeModal = function() {
+        $scope.currentModal = null;
+        $scope.activeUser = {};
+        $scope.violationData = {};
+    };
+
+    // Save User Profile Edits
+    $scope.saveUserEdit = function() {
+        for (var i = 0; i < $scope.userarray.length; i++) {
+            if ($scope.userarray[i].Username === $scope.activeUser.Username) {
+                $scope.userarray[i].Fname = $scope.activeUser.Fname;
+                $scope.userarray[i].Mname = $scope.activeUser.Mname;
+                $scope.userarray[i].Lname = $scope.activeUser.Lname;
+                $scope.userarray[i].PlateNumber = $scope.activeUser.PlateNumber;
+                $scope.userarray[i].Email = $scope.activeUser.Email;
+                $scope.userarray[i].Role = $scope.activeUser.Role;
+                break;
+            }
+        }
+
+        // insert to localstorage/ cache or cookies
+        localStorage.setItem('usersList', JSON.stringify($scope.userarray));
+        alert("User details updated successfully!");
+        $scope.closeModal();
+    };
+
+    // Submit and Save New Parking Violation
+    $scope.submitViolation = function() {
+        var newViolation = {
+            Username: $scope.activeUser.Username,
+            PlateNumber: $scope.activeUser.PlateNumber,
+            Type: $scope.violationData.Type,
+            Fine: $scope.violationData.Fine,
+            Remarks: $scope.violationData.Remarks || "No remarks provided",
+            DateIssued: new Date().toLocaleString()
+        };
+
+        var violationsList = JSON.parse(localStorage.getItem('violationsList')) || [];
+        violationsList.push(newViolation);
+
+        localStorage.setItem('violationsList', JSON.stringify(violationsList));
+
+        alert("Violation successfully issued to " + $scope.activeUser.Username);
+        $scope.closeModal();
+    };
 
 
 
