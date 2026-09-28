@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "~/Views/Shared/_mainLayout.cshtml";
     ViewBag.Title = "Admin Dashboard";
 }
@@ -60,7 +60,7 @@
                 <p class="text-xs text-slate-400 mt-0.5">Modify profile info for <span class="font-semibold text-slate-700">{{activeUser.Username}}</span>.</p>
             </div>
 
-            <form ng-submit="saveUserEdit()" class="space-y-4">
+            <form ng-submit="saveUserEdit()" novalidate class="space-y-4">
                 <div class="grid grid-cols-3 gap-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">First Name</label>
@@ -116,7 +116,7 @@
                 <p class="text-xs text-slate-400 mt-0.5">Issue citation to user: <span class="font-semibold text-slate-700">{{activeUser.Username}}</span></p>
             </div>
 
-            <form ng-submit="submitViolation()" class="space-y-4">
+            <form ng-submit="submitViolation()" novalidate class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Violation Type</label>
                     <select ng-model="violationData.Type" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500">

@@ -27,10 +27,12 @@ namespace ParkEaseProject.Controllers
         {
             return View();
         }
+
         public ActionResult UserDashboardPage()
         {
             return View();
         }
+
         public ActionResult AdminDashboardPage()
         {
             return View();
