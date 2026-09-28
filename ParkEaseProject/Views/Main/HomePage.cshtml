@@ -1,137 +1,116 @@
 @{
     Layout = "~/Views/Shared/_mainLayout.cshtml";
-    ViewBag.Title = "Dashboard - Home";
+    ViewBag.Title = "ParkEase - Home";
 }
 
-<div class="w-full max-w-6xl mx-auto py-6 space-y-6">
+<div class="w-full max-w-6xl mx-auto py-6 space-y-8">
 
-    <div class="bg-gradient-to-r from-violet-900/60 via-slate-800/80 to-slate-900/80 backdrop-blur-md rounded-[32px] p-8 md:p-10 border border-white/10 shadow-2xl text-white flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="space-y-3 text-center md:text-left">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-violet-500/20 text-violet-300 border border-violet-400/30">
-                System Status: Active
-            </span>
-            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
-                @ViewBag.WelcomeMessage
-            </h1>
-            <p class="text-slate-300 text-sm max-w-xl">
-                Manage client parking profiles, monitor occupancy records, and review violation fee inquiries across campus facilities.
-            </p>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900 rounded-[36px] p-8 md:p-12 border border-white/10 shadow-2xl text-white relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 w-80 h-80 bg-orange-500/15 rounded-full blur-3xl"></div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-            <a href="/Main/RegistrationPage" class="bg-violet-600 hover:bg-violet-700 text-white font-medium px-5 py-2.5 rounded-full text-sm shadow-lg shadow-violet-500/25 transition active:scale-95">
-                Register Client
-            </a>
-            <a href="/Main/LoginPage" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium px-5 py-2.5 rounded-full text-sm transition active:scale-95">
-                Switch User
-            </a>
+        <div class="relative z-10 max-w-2xl space-y-4">
+            <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-2"></span>
+                MMDA NCAP Parking Portal Active
+            </span>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+                @ViewBag.WelcomeMessage
+            </h1>
+            <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+                Streamlining campus parking management, real-time bay allocation, and transparent violation enforcement for students, faculty, and administrators.
+            </p>
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+                <a href="/Main/LoginPage" class="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-3 rounded-2xl text-sm shadow-lg shadow-orange-600/30 transition active:scale-95">
+                    Sign In to Portal
+                </a>
+                <a href="/Main/RegistrationPage" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-6 py-3 rounded-2xl text-sm transition active:scale-95">
+                    Register New Account
+                </a>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-[32px] shadow-2xl border border-slate-100 p-6 md:p-8 text-slate-800">
-
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6">
-            <div class="relative w-full sm:w-80">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-                <input type="text" 
-                       ng-model="searchClient" 
-                       placeholder="Search clients..." 
-                       class="w-full pl-10 pr-4 py-2 rounded-full border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500 bg-slate-50/50" />
+    <!-- Quick Metrics / System Highlights -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="bg-white rounded-[28px] p-6 shadow-xl border border-slate-100 flex items-center space-x-4">
+            <div class="w-14 h-14 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center text-xl font-bold border border-violet-100">
+                🅿️
             </div>
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Campus Parking Bays</p>
+                <h3 class="text-2xl font-extrabold text-slate-900 mt-0.5">1,420 Slots</h3>
+                <p class="text-xs text-emerald-600 font-medium mt-0.5">Live Occupancy Monitored</p>
+            </div>
+        </div>
 
-            <div class="flex items-center space-x-3 self-end sm:self-auto">
-                <button type="button" 
-                        class="border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-medium px-4 py-2 rounded-full text-sm flex items-center space-x-2 transition shadow-sm">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-                    </svg>
-                    <span>Filter</span>
-                </button>
+        <div class="bg-white rounded-[28px] p-6 shadow-xl border border-slate-100 flex items-center space-x-4">
+            <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl font-bold border border-orange-100">
+                ⚖️
+            </div>
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">NCAP Enforcement</p>
+                <h3 class="text-2xl font-extrabold text-slate-900 mt-0.5">Automated</h3>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">Violation &amp; Fine Tracking</p>
+            </div>
+        </div>
 
-                <a href="/Main/RegistrationPage" 
-                   class="bg-violet-600 hover:bg-violet-700 text-white font-medium px-5 py-2 rounded-full text-sm shadow-md shadow-violet-500/25 hover:shadow-lg transition flex items-center space-x-1.5 active:scale-95">
-                    <span class="text-base leading-none font-bold">+</span>
-                    <span>Add New Client</span>
+        <div class="bg-white rounded-[28px] p-6 shadow-xl border border-slate-100 flex items-center space-x-4">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold border border-emerald-100">
+                🛡️
+            </div>
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Security Access</p>
+                <h3 class="text-2xl font-extrabold text-slate-900 mt-0.5">Role-Based</h3>
+                <p class="text-xs text-emerald-600 font-medium mt-0.5">Secure Admin &amp; User Portals</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portal Navigation Feature Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Administrator Card -->
+        <div class="bg-white rounded-[32px] shadow-xl p-8 border border-slate-100 flex flex-col justify-between space-y-6">
+            <div class="space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg">
+                    ⚙️
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Administrator Portal</h2>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Designed for authorized campus parking administrators. Oversee user accounts, edit basic details (First, Middle, Last names, and Email), and issue formal parking violation citations following the NCAP standard.
+                </p>
+            </div>
+            <div>
+                <a href="/Main/LoginPage" class="inline-flex items-center space-x-2 text-sm font-semibold text-slate-900 hover:text-orange-600 transition">
+                    <span>Access Admin Controls</span>
+                    <span>&rarr;</span>
                 </a>
             </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                        <th class="py-3.5 px-4">Avatar</th>
-                        <th class="py-3.5 px-4">First Name</th>
-                        <th class="py-3.5 px-4">Last Name</th>
-                        <th class="py-3.5 px-4">Email Address</th>
-                        <th class="py-3.5 px-4 text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100 text-sm">
-                    <tr ng-repeat="udata in userarray | filter:searchClient" class="hover:bg-slate-50/70 transition-colors">
-                        <td class="py-3.5 px-4">
-                            <div class="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-600 text-xs shadow-sm">
-                                <img ng-if="udata.Avatar" ng-src="{{udata.Avatar}}" alt="{{udata.FName}}" class="w-full h-full object-cover">
-                                <span ng-if="!udata.Avatar">{{udata.FName.charAt(0)}}</span>
-                            </div>
-                        </td>
-                        <td class="py-3.5 px-4 font-semibold text-slate-900">{{udata.FName}}</td>
-                        <td class="py-3.5 px-4 text-slate-700 font-medium">{{udata.LName}}</td>
-                        <td class="py-3.5 px-4 text-slate-600 font-normal">{{udata.Email}}</td>
-                        <td class="py-3.5 px-4">
-                            <div class="flex items-center justify-center space-x-2">
-                                <button type="button" 
-                                        ng-click="editFunc($index)" 
-                                        title="Edit client"
-                                        class="w-8 h-8 rounded-xl border border-slate-200 hover:border-violet-400 text-slate-400 hover:text-violet-600 hover:bg-violet-50 flex items-center justify-center transition shadow-sm">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-                                    </svg>
-                                </button>
-                                <button type="button" 
-                                        ng-click="deleteFunc($index)" 
-                                        title="Delete client"
-                                        class="w-8 h-8 rounded-xl border border-slate-200 hover:border-rose-400 text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition shadow-sm">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr ng-if="userarray.length === 0">
-                        <td colspan="5" class="py-10 text-center text-slate-400">
-                            No clients registered yet. Click <a href="/Main/RegistrationPage" class="text-violet-600 underline font-medium">Add New Client</a> to register.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 pt-5 border-t border-slate-100 text-xs text-slate-500">
-            <button type="button" class="hover:text-slate-800 font-medium transition flex items-center space-x-1">
-                <span>&lt; Previous</span>
-            </button>
-
-            <div class="flex items-center space-x-2">
-                <button type="button" class="w-7 h-7 rounded-lg hover:bg-slate-100 text-slate-600 flex items-center justify-center font-medium">01</button>
-                <button type="button" class="w-7 h-7 rounded-lg hover:bg-slate-100 text-slate-600 flex items-center justify-center font-medium">02</button>
-                <button type="button" class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center font-semibold shadow-sm">03</button>
-                <button type="button" class="w-7 h-7 rounded-lg hover:bg-slate-100 text-slate-600 flex items-center justify-center font-medium">04</button>
-                <span class="px-1 text-slate-400 font-bold tracking-widest">...</span>
-                <button type="button" class="w-7 h-7 rounded-lg hover:bg-slate-100 text-slate-600 flex items-center justify-center font-medium">10</button>
-                <button type="button" class="w-7 h-7 rounded-lg hover:bg-slate-100 text-slate-600 flex items-center justify-center font-medium">11</button>
+        <!-- User / Driver Card -->
+        <div class="bg-white rounded-[32px] shadow-xl p-8 border border-slate-100 flex flex-col justify-between space-y-6">
+            <div class="space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold text-lg">
+                    👤
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Personal Client Dashboard</h2>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    For students and faculty car owners. Manage your profile data, securely update your personal account password, and check real-time violation records or pending fines assigned to your vehicle.
+                </p>
             </div>
-
-            <button type="button" class="hover:text-slate-800 font-medium transition flex items-center space-x-1">
-                <span>Next &gt;</span>
-            </button>
+            <div>
+                <a href="/Main/LoginPage" class="inline-flex items-center space-x-2 text-sm font-semibold text-violet-600 hover:text-violet-700 transition">
+                    <span>Open User Dashboard</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
         </div>
 
     </div>
-</div>
 
+</div>

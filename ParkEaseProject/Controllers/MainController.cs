@@ -27,11 +27,24 @@ namespace ParkEaseProject.Controllers
         {
             return View();
         }
+        public ActionResult UserDashboardPage()
+        {
+            return View();
+        }
+        public ActionResult AdminDashboardPage()
+        {
+            return View();
+        }
 
         public ActionResult HomePage()
         {
             ViewBag.WelcomeMessage = "Welcome to ParkEase Parking Management and Account Portal!";
             return View();
+        }
+
+        public string GetusernameFunc()
+        {
+            return "Hi";
         }
     }
 }

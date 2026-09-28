@@ -1,281 +1,150 @@
-app.controller("ParkEaseProjectController", function ($scope, ParkEaseProjectService) {
+app.controller("ParkEaseProjectController", function($scope, ParkEaseProjectService) {
 
-    $scope.userarray = ParkEaseProjectService.getUsers();
-    $scope.isLoggedIn = (sessionStorage.getItem("isLoggedIn") === "true");
-    $scope.isEditing = false;
-    $scope.editIndex = -1;
+    $scope.userarray = JSON.parse(localStorage.getItem('usersList')) || [];
+    $scope.isLoggedIn = false;
+    $scope.currentUserRole = '';
+    $scope.currentPage = 'home';
 
-    if (window.location.pathname.toLowerCase().includes("/main/homepage") && !$scope.isLoggedIn) {
-        window.location.href = "/Main/LoginPage";
+    var sessionUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (sessionUser) {
+        $scope.isLoggedIn = true;
+        $scope.currentUser = sessionUser;
+        $scope.currentUserRole = sessionUser.Role;
     }
 
-    $scope.alertFunc = function () {
-        alert("Yehey");
-    };
+    $scope.updateNavLinks = function() {
+        var activeUser = $scope.currentUser || JSON.parse(localStorage.getItem('currentUser'));
+        var role = activeUser ? activeUser.Role : '';
+        var loggedIn = $scope.isLoggedIn || (activeUser ? true : false);
 
-    $scope.nameFunc = function (username) {
-        alert(username);
-    };
-
-    $scope.getName = function () {
-        alert($scope.username);
-    };
-
-    $scope.redirectFunc = function () {
-        window.location.href = "/Main/AboutPage";
-    };
-
-    $scope.clearLoginFunc = function () {
-        $scope.loginUsername = "";
-        $scope.loginPassword = "";
-    };
-
-    $scope.loginFunc = function () {
-        if (!$scope.loginUsername || $scope.loginUsername.trim() === "") {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Validation Error',
-                text: 'Username or Email is required.'
-            });
-            return;
+        if (loggedIn && role === 'admin') {
+            $scope.navLinks = [
+                { title: "Admin Dashboard", url: "/Main/AdminDashboardPage", key: "Admin Dashboard" },
+                { title: "Home", url: "/Main/HomePage", key: "Home" },
+                { title: "About Us", url: "/Main/AboutPage", key: "About Us" },
+                { title: "Contact", url: "/Main/ContactPage", key: "Contact" }
+            ];
+        } else if (loggedIn && role === 'user') {
+            $scope.navLinks = [
+                { title: "Dashboard", url: "/Main/UserDashboardPage", key: "Dashboard" },
+                { title: "Home", url: "/Main/HomePage", key: "Home" },
+                { title: "About Us", url: "/Main/AboutPage", key: "About Us" },
+                { title: "Contact", url: "/Main/ContactPage", key: "Contact" }
+            ];
+        } else {
+            $scope.navLinks = [
+                { title: "Home", url: "/Main/HomePage", key: "Home" },
+                { title: "About Us", url: "/Main/AboutPage", key: "About Us" },
+                { title: "Contact", url: "/Main/ContactPage", key: "Contact" }
+            ];
         }
+    };
 
-        if (!$scope.loginPassword || $scope.loginPassword.trim() === "") {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Validation Error',
-                text: 'Password is required.'
-            });
-            return;
-        }
+    $scope.updateNavLinks();
 
-        var inputUser = $scope.loginUsername.trim();
-        var inputPass = $scope.loginPassword.trim();
-        var foundUser = false;
+    $scope.registerFunc = function() {
 
-        for (var i = 0; i < $scope.userarray.length; i++) {
-            var userdata = $scope.userarray[i];
+        if (($scope.firstname == undefined || $scope.firstname == "") ||
+            ($scope.middlename == undefined || $scope.middlename == "") ||
+            ($scope.lastname == undefined || $scope.lastname == "") ||
+            ($scope.platenumber == undefined || $scope.platenumber == "") ||
+            ($scope.username == undefined || $scope.username == "") ||
+            ($scope.email == undefined || $scope.email == "") ||
+            ($scope.password == undefined || $scope.password == "")
+        ) {
+            alert("Please fill up all the fields");
+        } else {
+            var userData = {
+                Fname: $scope.firstname,
+                Mname: $scope.middlename,
+                Lname: $scope.lastname,
+                PlateNumber: $scope.platenumber,
+                Username: $scope.username,
+                Email: $scope.email,
+                Password: $scope.password,
+                Role: 'user'
 
-            if ((userdata.Email && userdata.Email.toLowerCase() === inputUser.toLowerCase() ||
-                userdata.FName && userdata.FName.toLowerCase() === inputUser.toLowerCase()) &&
-                userdata.Password === inputPass) {
-                foundUser = true;
-                break;
             }
+            $scope.userarray.push(userData);
+            localStorage.setItem('usersList', JSON.stringify($scope.userarray));
+            alert($scope.userarray.length);
+            window.location.href = "/Main/LoginPage";
         }
 
-        if (!foundUser) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Failed',
-                text: 'Invalid username/email or password.'
-            });
-            return;
-        }
+    }
 
-        $scope.isLoggedIn = true;
-        sessionStorage.setItem("isLoggedIn", "true");
-        window.location.href = "/Main/HomePage";
-    };
-
-    $scope.logoutFunc = function () {
-        $scope.isLoggedIn = false;
-        sessionStorage.removeItem("isLoggedIn");
-        window.location.href = "/Main/LoginPage";
-    };
-
-    $scope.clearFunc = function () {
+    $scope.clearFunc = function() {
         $scope.firstname = "";
-        $scope.lastname = "";
         $scope.middlename = "";
+        $scope.lastname = "";
+        $scope.platenumber = "";
+        $scope.username = "";
         $scope.email = "";
         $scope.password = "";
-        $scope.confirmPassword = "";
-        $scope.position = "";
-        $scope.isEditing = false;
-        $scope.editIndex = -1;
-    };
 
-    function validateEmail(email) {
-        var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
     }
 
-    $scope.registrationFunc = function () {
-        if (!$scope.firstname || $scope.firstname.trim() === "") {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'First Name is required.' });
-            return;
-        }
+    $scope.loginFunc = function() {
 
-        if ($scope.firstname.trim().length < 2) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'First Name must be at least 2 characters.' });
-            return;
-        }
+        var savedUsers = JSON.parse(localStorage.getItem('usersList')) || [];
+        var matchedUser = null;
 
-        if (!$scope.lastname || $scope.lastname.trim() === "") {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Last Name is required.' });
-            return;
-        }
-
-        if ($scope.lastname.trim().length < 2) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Last Name must be at least 2 characters.' });
-            return;
-        }
-
-        if (!$scope.email || $scope.email.trim() === "") {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Email Address is required.' });
-            return;
-        }
-
-        if (!validateEmail($scope.email.trim())) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Please enter a valid email format.' });
-            return;
-        }
-
-        var isDuplicate = $scope.userarray.some(function (item) {
-            return item.Email && item.Email.toLowerCase() === $scope.email.trim().toLowerCase();
-        });
-
-        if (isDuplicate) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Email already exists in the system.' });
-            return;
-        }
-
-        if (!$scope.password || $scope.password.trim() === "") {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Password is required.' });
-            return;
-        }
-
-        if ($scope.password.trim().length < 8) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Password must be at least 8 characters long.' });
-            return;
-        }
-
-        var newUser = {
-            FName: $scope.firstname.trim(),
-            MName: $scope.middlename ? $scope.middlename.trim() : "",
-            LName: $scope.lastname.trim(),
-            Email: $scope.email.trim(),
-            Password: $scope.password.trim(),
-            Position: $scope.position ? $scope.position.trim() : "Client",
-            Avatar: ""
-        };
-
-        $scope.userarray.push(newUser);
-        ParkEaseProjectService.saveUsers($scope.userarray);
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Account Registered!',
-            text: 'Employee/Client record has been successfully created.',
-            timer: 1500,
-            showConfirmButton: false
-        });
-
-        $scope.clearFunc();
-    };
-
-    $scope.editFunc = function (index) {
-        $scope.isEditing = true;
-        $scope.editIndex = index;
-        var userdata = $scope.userarray[index];
-        $scope.firstname = userdata.FName;
-        $scope.middlename = userdata.MName || "";
-        $scope.lastname = userdata.LName;
-        $scope.email = userdata.Email;
-        $scope.position = userdata.Position || "";
-        $scope.password = userdata.Password || "";
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    $scope.cancelEditFunc = function () {
-        $scope.clearFunc();
-    };
-
-    $scope.updateFunc = function (userindex) {
-        var idx = ($scope.isEditing && $scope.editIndex >= 0) ? $scope.editIndex : userindex;
-        if (idx === undefined || idx < 0 || idx >= $scope.userarray.length) {
-            return;
-        }
-
-        var userdata = $scope.userarray[idx];
-
-        if ((userdata.FName === $scope.firstname) &&
-            (userdata.MName === ($scope.middlename || "")) &&
-            (userdata.LName === $scope.lastname) &&
-            (userdata.Email === $scope.email) &&
-            (userdata.Position === ($scope.position || ""))) {
-            alert("Walang bago");
-            return;
-        }
-
-        if (!$scope.firstname || $scope.firstname.trim().length < 2) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'First Name must be at least 2 characters.' });
-            return;
-        }
-
-        if (!$scope.lastname || $scope.lastname.trim().length < 2) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Last Name must be at least 2 characters.' });
-            return;
-        }
-
-        if (!$scope.email || !validateEmail($scope.email.trim())) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Please enter a valid email format.' });
-            return;
-        }
-
-        var isDuplicate = $scope.userarray.some(function (item, i) {
-            return i !== idx && item.Email && item.Email.toLowerCase() === $scope.email.trim().toLowerCase();
-        });
-
-        if (isDuplicate) {
-            Swal.fire({ icon: 'warning', title: 'Validation Error', text: 'Email is already used by another record.' });
-            return;
-        }
-
-        userdata.FName = $scope.firstname.trim();
-        userdata.MName = $scope.middlename ? $scope.middlename.trim() : "";
-        userdata.LName = $scope.lastname.trim();
-        userdata.Email = $scope.email.trim();
-        userdata.Position = $scope.position ? $scope.position.trim() : userdata.Position;
-        if ($scope.password && $scope.password.trim() !== "") {
-            userdata.Password = $scope.password.trim();
-        }
-
-        ParkEaseProjectService.saveUsers($scope.userarray);
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Record Updated!',
-            text: 'Client record changes have been saved.',
-            timer: 1500,
-            showConfirmButton: false
-        });
-
-        $scope.clearFunc();
-    };
-
-    $scope.deleteFunc = function (index) {
-        Swal.fire({
-            title: 'Delete Client Record?',
-            text: "This record will be permanently deleted from the client list.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ea580c',
-            cancelButtonColor: '#64748b',
-            confirmButtonText: 'Yes, delete it'
-        }).then(function (result) {
-            if (result.isConfirmed) {
-                $scope.userarray.splice(index, 1);
-                ParkEaseProjectService.saveUsers($scope.userarray);
-                $scope.$apply();
-                Swal.fire('Deleted!', 'Client record has been removed.', 'success');
-                if ($scope.editIndex === index) {
-                    $scope.clearFunc();
+        if (savedUsers && savedUsers.length > 0) {
+            for (var i = 0; i < savedUsers.length; i++) {
+                if (savedUsers[i].Username === $scope.loginData.username &&
+                    savedUsers[i].Password === $scope.loginData.password) {
+                    matchedUser = savedUsers[i];
+                    break;
                 }
             }
-        });
+        }
+
+        if (matchedUser !== null) {
+            $scope.isLoggedIn = true;
+            $scope.currentUser = matchedUser;
+            $scope.currentUserRole = matchedUser.Role || 'admin';
+            localStorage.setItem('currentUser', JSON.stringify(matchedUser));
+            $scope.updateNavLinks();
+            alert("Logged in");
+            if ($scope.currentUserRole === 'admin') {
+                window.location.href = "/Main/AdminDashboardPage";
+                $scope.updateNavLinks();
+            } else {
+                window.location.href = "/Main/UserDashboardPage";
+                $scope.updateNavLinks();
+            }
+        } else {
+            alert("Please enter valid Credentials");
+        }
+
+    }
+
+    $scope.clearLoginFunc = function() {
+        $scope.loginData = {};
+    }
+
+    $scope.logoutFunc = function() {
+        localStorage.removeItem('currentUser');
+        $scope.isLoggedIn = false;
+        $scope.currentUser = null;
+        $scope.currentUserRole = '';
+        $scope.updateNavLinks();
+        window.location.href = "/Main/LoginPage";
     };
+
+    $scope.adminEditFunc = function() {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 });
